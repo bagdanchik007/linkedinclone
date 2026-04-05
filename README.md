@@ -1,30 +1,45 @@
-# 🚀 Linkedin - FullStack Andwendungsprogramm Frontend + Backend 
+# 🚀 DevConnect — LinkedIn Fullstack-Anwendung
 
-> Ein LinkedIn-Klon für Entwickler. Plattform für Networking, Jobsuche und Bewerbungen.  
-> Gebaut mit FastAPI, PostgreSQL, Redis und Celery.
+> Ein LinkedIn-Klon als vollständige Fullstack-Anwendung.  
+> **Backend:** FastAPI · PostgreSQL · Redis · Celery  
+> **Frontend:** React · TypeScript · Tailwind CSS
 
 ---
 
 ## 👨‍💻 Über das Projekt
 
-Dieses Projekt ist ein **persönliches Lernprojekt**, das im Rahmen der Vorbereitung auf eine **Ausbildung zum Fachinformatiker für Anwendungsentwicklung** in Deutschland entstanden ist.
+Dieses Projekt ist eine **vollständige Fullstack-Anwendung**, die im Rahmen der Vorbereitung auf eine **Ausbildung zum Fachinformatiker für Anwendungsentwicklung** in Deutschland entwickelt wird.
 
-Das Ziel ist es, potenziellen Ausbildungsbetrieben nicht nur Syntaxkenntnisse zu zeigen, sondern die Fähigkeit, **echte Backend-Systeme** zu bauen:
+Das Ziel ist es, potenziellen Ausbildungsbetrieben zu zeigen, dass ich in der Lage bin, **echte, produktionsreife Anwendungen** von Grund auf zu bauen — sowohl Backend als auch Frontend.
 
-- Durchdachte Architektur (kein reiner CRUD-Code)
-- Asynchroner Stack (FastAPI + async SQLAlchemy)
-- Hintergrundaufgaben (Celery + Redis)
-- JWT-Authentifizierung mit Refresh-Tokens
-- Geschäftslogik: Verbindungen, Bewerbungen, Empfehlungen
+**Was diese Anwendung kann:**
+- Entwicklerprofile erstellen und verwalten
+- Stellenangebote veröffentlichen und bewerben
+- Verbindungen zwischen Nutzern aufbauen (wie LinkedIn)
+- Skill-basierte Job- und Personenempfehlungen
+- Echtzeit-Benachrichtigungen
 
 **Inspiration:** LinkedIn — aber für Entwickler, mit offenem Quellcode und sauberer Architektur.
 
-> 🎯 Das Projekt wird nach einem 28-Tage-Plan aufgebaut — von Null bis Deployment.
+> 🎯 Das Projekt wird Schritt für Schritt aufgebaut — von Null bis Deployment.
+
+---
+
+## 🏗️ Architektur
+
+```
+devconnect/
+├── backend/    → REST API (FastAPI)
+└── frontend/   → Web-App (React + TypeScript)
+```
+
+Die beiden Teile sind vollständig getrennt und kommunizieren über eine REST API.
 
 ---
 
 ## 📦 Tech Stack
 
+### Backend
 | Ebene | Technologie |
 |-------|-------------|
 | Framework | FastAPI |
@@ -36,81 +51,48 @@ Das Ziel ist es, potenziellen Ausbildungsbetrieben nicht nur Syntaxkenntnisse zu
 | Containerisierung | Docker + Docker Compose |
 | Tests | Pytest + HTTPX |
 
+### Frontend
+| Ebene | Technologie |
+|-------|-------------|
+| Framework | React 18 |
+| Sprache | TypeScript |
+| Styling | Tailwind CSS |
+| HTTP Client | Axios |
+| State Management | Zustand |
+| Routing | React Router v6 |
+
 ---
 
 ## 🗂️ Projektstruktur
 
 ```
-backend/
-├── app/
-│   ├── auth/
-│   │   ├── router.py          # /auth/register, /auth/login, /auth/refresh, /auth/logout
-│   │   ├── service.py         # JWT-Logik, Passwort-Hashing
-│   │   ├── schemas.py         # Pydantic-Modelle
-│   │   └── dependencies.py    # get_current_user
-│   │
-│   ├── users/
-│   │   ├── router.py          # /users/me, /users/{id}, /users/suggestions
-│   │   ├── service.py
-│   │   ├── schemas.py
-│   │   └── models.py          # User-Modell
-│   │
-│   ├── profiles/
-│   │   ├── router.py          # /users/me/profile
-│   │   ├── service.py
-│   │   ├── schemas.py
-│   │   └── models.py          # Profil-Modell (Bio, Skills, Standort)
-│   │
-│   ├── connections/
-│   │   ├── router.py          # /connections/request, /accept, /reject, /my, /pending
-│   │   ├── service.py         # Verbindungslogik + Empfehlungen
-│   │   ├── schemas.py
-│   │   └── models.py          # Verbindungs-Modell (Anfragender, Empfänger, Status)
-│   │
-│   ├── jobs/
-│   │   ├── router.py          # /jobs CRUD + Suche + /jobs/recommended
-│   │   ├── service.py
-│   │   ├── schemas.py
-│   │   └── models.py          # Job-Modell
-│   │
-│   ├── applications/
-│   │   ├── router.py          # /jobs/{id}/apply, /applications/my
-│   │   ├── service.py
-│   │   ├── schemas.py
-│   │   └── models.py          # Bewerbungs-Modell (pending/accepted/rejected)
-│   │
-│   ├── notifications/
-│   │   ├── router.py          # /notifications, /notifications/{id}/read
-│   │   ├── service.py
-│   │   ├── schemas.py
-│   │   ├── models.py          # Benachrichtigungs-Modell
-│   │   └── tasks.py           # Celery-Aufgaben
-│   │
-│   └── core/
-│       ├── config.py          # Einstellungen (pydantic-settings)
-│       ├── database.py        # Async SQLAlchemy Engine + Session
-│       ├── redis.py           # Redis-Verbindung
-│       └── celery_app.py      # Celery-Instanz
+devconnect/
 │
-├── migrations/
-│   ├── env.py
-│   └── versions/
+├── backend/
+│   ├── app/
+│   │   ├── auth/              # JWT, Login, Registrierung
+│   │   ├── users/             # Benutzer-Modell & Endpunkte
+│   │   ├── profiles/          # Profil, Skills, Erfahrung
+│   │   ├── connections/       # Verbindungen & Empfehlungen
+│   │   ├── jobs/              # Stellenangebote & Suche
+│   │   ├── applications/      # Bewerbungen & Status
+│   │   ├── notifications/     # Benachrichtigungen (Celery)
+│   │   └── core/              # Config, DB, Redis, Celery
+│   ├── migrations/
+│   ├── tests/
+│   ├── Dockerfile
+│   ├── docker-compose.yml
+│   └── pyproject.toml
 │
-├── tests/
-│   ├── conftest.py
-│   ├── test_auth.py
-│   ├── test_users.py
-│   ├── test_jobs.py
-│   ├── test_connections.py
-│   └── test_applications.py
-│
-├── .env.example
-├── .env
-├── docker-compose.yml
-├── Dockerfile
-├── alembic.ini
-├── pyproject.toml
-└── README.md
+└── frontend/
+    ├── src/
+    │   ├── pages/             # Login, Register, Feed, Profil, Jobs
+    │   ├── components/        # UI-Komponenten
+    │   ├── api/               # API-Aufrufe (Axios)
+    │   ├── store/             # Zustand (State Management)
+    │   └── types/             # TypeScript-Typen
+    ├── public/
+    └── package.json
 ```
 
 ---
@@ -145,8 +127,8 @@ CREATE TABLE profiles (
     bio         TEXT,
     location    VARCHAR(255),
     avatar_url  TEXT,
-    skills      TEXT[],           -- PostgreSQL-Array
-    experience  JSONB,            -- [{title, company, years}]
+    skills      TEXT[],
+    experience  JSONB,
     updated_at  TIMESTAMP DEFAULT NOW()
 );
 
@@ -155,7 +137,7 @@ CREATE TABLE connections (
     id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     requester_id UUID REFERENCES users(id) ON DELETE CASCADE,
     receiver_id  UUID REFERENCES users(id) ON DELETE CASCADE,
-    status       VARCHAR(20) DEFAULT 'pending',  -- 'pending' | 'accepted' | 'rejected'
+    status       VARCHAR(20) DEFAULT 'pending',
     created_at   TIMESTAMP DEFAULT NOW(),
     UNIQUE (requester_id, receiver_id)
 );
@@ -171,16 +153,15 @@ CREATE TABLE jobs (
     skills_required TEXT[],
     is_active       BOOLEAN DEFAULT TRUE,
     created_at      TIMESTAMP DEFAULT NOW(),
-    search_vector   TSVECTOR   -- Volltextsuche
+    search_vector   TSVECTOR
 );
-CREATE INDEX jobs_search_idx ON jobs USING GIN(search_vector);
 
 -- Bewerbungen
 CREATE TABLE applications (
     id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id    UUID REFERENCES users(id) ON DELETE CASCADE,
     job_id     UUID REFERENCES jobs(id) ON DELETE CASCADE,
-    status     VARCHAR(20) DEFAULT 'pending',  -- 'pending' | 'accepted' | 'rejected'
+    status     VARCHAR(20) DEFAULT 'pending',
     cover_note TEXT,
     created_at TIMESTAMP DEFAULT NOW(),
     UNIQUE (user_id, job_id)
@@ -190,7 +171,7 @@ CREATE TABLE applications (
 CREATE TABLE notifications (
     id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id    UUID REFERENCES users(id) ON DELETE CASCADE,
-    type       VARCHAR(50),   -- 'connection_request' | 'application_update' | 'new_job'
+    type       VARCHAR(50),
     payload    JSONB,
     is_read    BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT NOW()
@@ -203,158 +184,104 @@ CREATE TABLE notifications (
 
 ### Authentifizierung
 ```
-POST   /auth/register          # Registrierung
-POST   /auth/login             # Anmeldung → Access + Refresh Token
-POST   /auth/refresh           # Access Token erneuern
-POST   /auth/logout            # Refresh Token widerrufen
+POST   /auth/register
+POST   /auth/login
+POST   /auth/refresh
+POST   /auth/logout
 ```
 
 ### Benutzer & Profile
 ```
-GET    /users/me               # Aktueller Benutzer
-PATCH  /users/me               # Daten aktualisieren
-GET    /users/{id}             # Öffentliches Profil
-GET    /users/suggestions      # Personenempfehlungen
+GET    /users/me
+PATCH  /users/me
+GET    /users/{id}
+GET    /users/suggestions
 
-GET    /users/me/profile       # Eigenes Profil
-PATCH  /users/me/profile       # Profil aktualisieren
-POST   /users/me/avatar        # Avatar hochladen
+GET    /users/me/profile
+PATCH  /users/me/profile
+POST   /users/me/avatar
 ```
 
 ### Verbindungen
 ```
-POST   /connections/request/{user_id}   # Anfrage senden
-PATCH  /connections/{id}/accept         # Annehmen
-PATCH  /connections/{id}/reject         # Ablehnen
-DELETE /connections/{id}                # Kontakt entfernen
-GET    /connections/my                  # Meine Kontakte
-GET    /connections/pending             # Eingehende Anfragen
+POST   /connections/request/{user_id}
+PATCH  /connections/{id}/accept
+PATCH  /connections/{id}/reject
+DELETE /connections/{id}
+GET    /connections/my
+GET    /connections/pending
 ```
 
 ### Stellenangebote
 ```
-POST   /jobs                   # Stelle erstellen (nur Recruiter)
-GET    /jobs                   # Liste (Filter: skills, company, location)
-GET    /jobs/recommended       # Empfehlungen nach Profil-Skills
-GET    /jobs/{id}              # Stellendetails
-PATCH  /jobs/{id}              # Bearbeiten (nur Autor)
-DELETE /jobs/{id}              # Löschen (nur Autor)
+POST   /jobs
+GET    /jobs
+GET    /jobs/recommended
+GET    /jobs/{id}
+PATCH  /jobs/{id}
+DELETE /jobs/{id}
 ```
 
 ### Bewerbungen
 ```
-POST   /jobs/{id}/apply                  # Bewerben
-GET    /applications/my                  # Meine Bewerbungen
-GET    /jobs/{id}/applications           # Bewerbungen zur Stelle (Recruiter)
-PATCH  /applications/{id}/status         # Status ändern (Recruiter)
+POST   /jobs/{id}/apply
+GET    /applications/my
+GET    /jobs/{id}/applications
+PATCH  /applications/{id}/status
 ```
 
 ### Benachrichtigungen
 ```
-GET    /notifications                    # Liste der Benachrichtigungen
-PATCH  /notifications/{id}/read          # Als gelesen markieren
-PATCH  /notifications/read-all           # Alle als gelesen markieren
+GET    /notifications
+PATCH  /notifications/{id}/read
+PATCH  /notifications/read-all
 ```
 
 ---
 
 ## ⚙️ Quickstart
 
-### 1. Repository klonen und Umgebung einrichten
+### Backend starten
 
 ```bash
-git clone https://github.com/yourname/devconnect-backend
-cd devconnect-backend
+cd backend
 cp .env.example .env
-```
-
-### 2. `.env` ausfüllen
-
-```env
-DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost:5432/devconnect
-REDIS_URL=redis://localhost:6379/0
-SECRET_KEY=your-super-secret-key-here
-ALGORITHM=HS256
-ACCESS_TOKEN_EXPIRE_MINUTES=30
-REFRESH_TOKEN_EXPIRE_DAYS=30
-```
-
-### 3. Mit Docker starten
-
-```bash
-docker-compose up -d
-```
-
-### 4. Migrationen anwenden
-
-```bash
-alembic upgrade head
-```
-
-### 5. Server starten
-
-```bash
-uvicorn app.main:app --reload
+docker-compose up --build
 ```
 
 Swagger UI: [http://localhost:8000/docs](http://localhost:8000/docs)
+
+### Migrationen anwenden
+
+```bash
+docker-compose exec api alembic upgrade head
+```
+
+### Frontend starten *(kommt bald)*
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Web-App: [http://localhost:5173](http://localhost:5173)
 
 ---
 
 ## 🧪 Tests
 
 ```bash
+cd backend
 pytest tests/ -v
 pytest tests/ --cov=app --cov-report=html
 ```
 
 ---
 
-## 🐳 Docker Compose
-
-```yaml
-version: "3.9"
-services:
-  api:
-    build: .
-    ports:
-      - "8000:8000"
-    env_file: .env
-    depends_on:
-      - db
-      - redis
-
-  db:
-    image: postgres:16
-    environment:
-      POSTGRES_DB: devconnect
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-
-  redis:
-    image: redis:7-alpine
-    ports:
-      - "6379:6379"
-
-  celery:
-    build: .
-    command: celery -A app.core.celery_app worker --loglevel=info
-    env_file: .env
-    depends_on:
-      - redis
-
-volumes:
-  pgdata:
-```
-
----
-
 ## 🗺️ Roadmap
 
+### ✅ Backend
 - [x] Authentifizierung (JWT + Refresh Tokens)
 - [x] Benutzer & Profile
 - [x] Stellenangebote + Volltextsuche
@@ -363,8 +290,20 @@ volumes:
 - [x] Benachrichtigungen (Celery + Redis)
 - [ ] WebSocket-Chat
 - [ ] ElasticSearch für die Suche
-- [ ] Feed (Beiträge + Likes)
-- [ ] Deployment (Railway / Render)
+
+### 🔜 Frontend
+- [ ] Login & Registrierung
+- [ ] Profil-Seite
+- [ ] Jobs Feed
+- [ ] Bewerbungen
+- [ ] Verbindungen
+- [ ] Benachrichtigungen
+- [ ] Responsive Design
+
+### 🚀 Deployment
+- [ ] Backend → Railway / Render
+- [ ] Frontend → Vercel
+- [ ] CI/CD mit GitHub Actions
 
 ---
 
